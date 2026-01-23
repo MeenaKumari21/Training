@@ -1,10 +1,15 @@
-const express=require("express")
+const express=require('express')
+//const {connect}=require('http2')
 const app=express()
-const mongoose=require("mongoose")
+const mongoose=require('mongoose')
+const dotenv = require('dotenv')
 
+dotenv.config()
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://mallimeena2005_db_user:meena21@cluster0.9kh8c6r.mongodb.net/',)
+mongoose.connect(
+    process.env.MONGO_URI
+)
 .then(() => {
     console.log("Connected to MongoDB");
 })
@@ -12,6 +17,7 @@ mongoose.connect('mongodb+srv://mallimeena2005_db_user:meena21@cluster0.9kh8c6r.
     console.log(err);
 })
 app.use('/auth', require('./routes/authoRoutes'))
+app.use('/task',require('./routes/taskRoutes'))
 
 app.get('/api', (req, res) => {
     res.send("Hello from  backend!");
